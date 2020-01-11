@@ -1,7 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text;
+﻿using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
-namespace AuthSample {
+namespace AuthSample.Security {
     public static class SecurityService {
         public static SymmetricSecurityKey GetSecurityKey() {
             string key = "0125eb1b-0251-4a86-8d43-8ebeeeb39d9a";

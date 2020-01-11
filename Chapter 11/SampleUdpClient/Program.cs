@@ -5,10 +5,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SampleUdpClient {
-    class Program {
-        public static async Task Main(string[] args) {
-            using (var client = new UdpClient(34567)) {
+namespace SampleUdpClient
+{
+    internal class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            using (var client = new UdpClient(34567))
+            {
                 var remoteEndpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 45678);
 
                 client.Connect(remoteEndpoint);

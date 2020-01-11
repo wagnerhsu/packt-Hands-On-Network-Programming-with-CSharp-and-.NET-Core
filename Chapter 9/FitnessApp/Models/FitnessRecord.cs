@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace FitnessApp {
-    public class FitnessRecord {
-        public string title { get; set; }
-        public string workoutType { get; set; }
-        public string comments { get; set; }
-        public DateTime workoutDate { get; set; }
+namespace FitnessApp.Models
+{
+    public class FitnessRecord
+    {
+        public string Title { get; set; }
+        public string WorkoutType { get; set; }
+        public string Comments { get; set; }
+        public DateTime WorkoutDate { get; set; }
     }
 }

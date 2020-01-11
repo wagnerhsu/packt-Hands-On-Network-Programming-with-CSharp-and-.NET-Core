@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace AggregatorDemo {
-
-    public interface IDependentDataService {
+namespace AggregatorDemo.Services
+{
+    public interface IDependentDataService
+    {
         Task<string> GetDataResponse();
     }
 
-    public class DependentDataService : IDependentDataService {
+    public class DependentDataService : IDependentDataService
+    {
         private IHttpClientFactory _httpFactory;
 
-        public DependentDataService(IHttpClientFactory factory) {
+        public DependentDataService(IHttpClientFactory factory)
+        {
             _httpFactory = factory;
         }
 
-        public async Task<string> GetDataResponse() {
+        public async Task<string> GetDataResponse()
+        {
             var client = _httpFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:33333");
 

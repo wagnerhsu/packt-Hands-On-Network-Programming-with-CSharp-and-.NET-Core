@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Renci.SshNet;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Renci.SshNet;
 
-namespace SshDemo {
-    class Program {
-        public static async Task Main(string[] args) {
+namespace SshDemo
+{
+    internal class Program
+    {
+        public static async Task Main(string[] args)
+        {
             AuthenticationMethod method = new PasswordAuthenticationMethod("tuxbox", "fiddlesticks");
             ConnectionInfo connection = new ConnectionInfo("127.0.0.1", "tuxbox", method);
             var client = new SshClient(connection);
-            if (!client.IsConnected) {
+            if (!client.IsConnected)
+            {
                 Console.WriteLine("We're connected!");
                 client.Connect();
             }

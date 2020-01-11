@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Threading;
-using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Threading;
 
-namespace NetworkAnalysisDemo {
-    class Program {
-        static void Main(string[] args) {
+namespace NetworkAnalysisDemo
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
             DisplayDeviceInformation();
             Console.ReadLine();
             DisplayActiveTcpConnections();
@@ -15,12 +17,14 @@ namespace NetworkAnalysisDemo {
             Thread.Sleep(20000);
         }
 
-        private static void DisplayDeviceInformation() {
+        private static void DisplayDeviceInformation()
+        {
             var adapters = NetworkInterface.GetAllNetworkInterfaces();
             Console.WriteLine($"There were {adapters.Length} devices detected on your machine");
             Console.WriteLine();
             Console.WriteLine("Device Details");
-            foreach (NetworkInterface adapter in adapters) {
+            foreach (NetworkInterface adapter in adapters)
+            {
                 Console.WriteLine("=========================================================================");
                 Console.WriteLine();
                 Console.WriteLine($"Device ID: ----------------- {adapter.Id}");
@@ -32,17 +36,18 @@ namespace NetworkAnalysisDemo {
                 Console.WriteLine($"Adapter Speed: ------------- {adapter.Speed}");
                 Console.WriteLine($"Multicast Support: --------- {adapter.SupportsMulticast}");
             }
-
         }
 
-        private static void DisplayActiveTcpConnections() {
+        private static void DisplayActiveTcpConnections()
+        {
             var ipStats = IPGlobalProperties.GetIPGlobalProperties();
             var tcpConnections = ipStats.GetActiveTcpConnections();
 
             Console.WriteLine($"There are currently {tcpConnections.Length} active TCP connections on this machine");
             Console.WriteLine();
 
-            foreach (var connection in tcpConnections) {
+            foreach (var connection in tcpConnections)
+            {
                 Console.WriteLine("=============================================");
                 Console.WriteLine($"Local host:");
                 Console.WriteLine($"    Connected On Address: {connection.LocalEndPoint.Address.ToString()}");
@@ -54,7 +59,8 @@ namespace NetworkAnalysisDemo {
             }
         }
 
-        private static void DisplayIPv4TrafficStatistics() {
+        private static void DisplayIPv4TrafficStatistics()
+        {
             var ipProperties = IPGlobalProperties.GetIPGlobalProperties();
             var ipStats = ipProperties.GetIPv4GlobalStatistics();
             Console.WriteLine($"Incoming Packets: {ipStats.ReceivedPackets}");

@@ -1,5 +1,7 @@
-﻿namespace CustomProtocolDemo {
-    public enum RockStatus {
+﻿namespace CustomProtocolDemo
+{
+    public enum RockStatus
+    {
         SUCCESS,
         PARTIAL,
         FAILURE

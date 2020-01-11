@@ -1,28 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using DataSimulation.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DataSimulation {
+namespace DataSimulation.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class DataController : ControllerBase {
-
+    public class DataController : ControllerBase
+    {
         [HttpGet("value/{id}")]
-        public ActionResult<string> GetString(int id) {
+        public ActionResult<string> GetString(int id)
+        {
             Thread.Sleep(5000);
             return $"{id}: some data";
         }
 
         [HttpGet("values/{id}")]
-        public ActionResult<IEnumerable<string>> GetStrings(int id) {
+        public ActionResult<IEnumerable<string>> GetStrings(int id)
+        {
             Thread.Sleep(5000);
             return new string[] { $"{id}: value1", $"{id + 1}: value2" };
         }
 
         [HttpGet("record/{id}")]
-        public ActionResult<OutputRecord> GetRecord(int id) {
+        public ActionResult<OutputRecord> GetRecord(int id)
+        {
             Thread.Sleep(5000);
-            return new OutputRecord() {
+            return new OutputRecord()
+            {
                 Id = id,
                 SimpleString = $"{id}: value 1",
                 StringList = new List<string> {
@@ -33,7 +39,8 @@ namespace DataSimulation {
         }
 
         [HttpGet("records/{id}")]
-        public ActionResult<IEnumerable<OutputRecord>> GetRecords(int id) {
+        public ActionResult<IEnumerable<OutputRecord>> GetRecords(int id)
+        {
             Thread.Sleep(5000);
             return new List<OutputRecord>(){
                 new OutputRecord() {

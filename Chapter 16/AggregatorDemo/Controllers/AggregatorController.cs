@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using AggregatorDemo.Services;
 
-namespace AggregatorDemo {
+namespace AggregatorDemo.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class AggregatorController : ControllerBase {
-
+    public class AggregatorController : ControllerBase
+    {
         private IDependentDataService _dependentService;
 
-        public AggregatorController(IDependentDataService depSvc) {
+        public AggregatorController(IDependentDataService depSvc)
+        {
             _dependentService = depSvc;
         }
-        
+
         [HttpGet("data")]
-        public async Task<ActionResult<string>> Get() {
+        public async Task<ActionResult<string>> Get()
+        {
             return await _dependentService.GetDataResponse();
         }
     }

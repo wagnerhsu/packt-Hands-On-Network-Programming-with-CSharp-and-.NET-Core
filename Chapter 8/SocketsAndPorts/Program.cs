@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
-namespace SocketsAndPorts {
-    class Program {
-        static void Main(string[] args) {
+namespace SocketsAndPorts
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
             string server = "localhost";
             int port = 5000;
             string path = "/api/values";
@@ -15,11 +18,13 @@ namespace SocketsAndPorts {
             IPEndPoint endpoint = null;
             var host = Dns.GetHostEntry(server);
 
-            foreach (var address in host.AddressList) {
+            foreach (var address in host.AddressList)
+            {
                 socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 endpoint = new IPEndPoint(address, port);
                 socket.ConnectAsync(endpoint).Wait();
-                if (socket.Connected) {
+                if (socket.Connected)
+                {
                     break;
                 }
             }
@@ -36,16 +41,18 @@ namespace SocketsAndPorts {
 
             string receivedMessage = Encoding.ASCII.GetString(receiveSeg);
 
-            foreach (var line in receivedMessage.Split("\r\n")) {
+            foreach (var line in receivedMessage.Split("\r\n"))
+            {
                 Console.WriteLine(line);
             }
-            
+
             socket.Disconnect(false);
             socket.Dispose();
             Thread.Sleep(10000);
         }
 
-        private static string GetRequestMessage(string server, int port, string path) {
+        private static string GetRequestMessage(string server, int port, string path)
+        {
             var message = $"GET {path} HTTP/1.1\r\n";
             message += $"Host: {server}:{port}\r\n";
             message += "cache-control: no-cache\r\n";

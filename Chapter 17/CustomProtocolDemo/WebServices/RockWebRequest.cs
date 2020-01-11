@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Net;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Security.Cryptography;
+using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace CustomProtocolDemo {
-    public class RockWebRequest : WebRequest {
+namespace CustomProtocolDemo.WebServices
+{
+    public class RockWebRequest : WebRequest
+    {
         public override Uri RequestUri { get; }
         public RockVerb Verb { get; set; } = RockVerb.Update;
         public IEnumerable<string> Records { get; set; }
         public long Fields { get; set; }
 
-
-        public RockWebRequest(Uri uri) {
+        public RockWebRequest(Uri uri)
+        {
             RequestUri = uri;
         }
 
-        public override WebResponse GetResponse() {
+        public override WebResponse GetResponse()
+        {
             var messageString = ConcatenateRecords();
             var message = Encoding.ASCII.GetBytes(messageString);
             var checksum = SHA256.Create().ComputeHash(message);
@@ -34,10 +35,13 @@ namespace CustomProtocolDemo {
             return new RockWebResponse(stream);
         }
 
-        private string ConcatenateRecords() {
+        private string ConcatenateRecords()
+        {
             StringBuilder messageBuilder = new StringBuilder();
-            foreach (var record in Records) {
-                if (messageBuilder.ToString().Length > 0) {
+            foreach (var record in Records)
+            {
+                if (messageBuilder.ToString().Length > 0)
+                {
                     messageBuilder.Append(Environment.NewLine);
                 }
                 messageBuilder.Append(record);
@@ -45,13 +49,15 @@ namespace CustomProtocolDemo {
             return messageBuilder.ToString();
         }
 
-        private IEnumerable<byte> GetHeaderBytes(int messageSize) {
+        private IEnumerable<byte> GetHeaderBytes(int messageSize)
+        {
             var headerBytes = new List<byte>();
             int verbAndSize = (int)Verb | (messageSize >> 2);
             headerBytes.AddRange(BitConverter.GetBytes(verbAndSize));
 
             //Add empty byte padding in the FIELDS header
-            for (var i = 0; i < 20; i++) {
+            for (var i = 0; i < 20; i++)
+            {
                 headerBytes.Add(0b00000000);
             }
 

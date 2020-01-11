@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
+using AuthSample.Data;
+using AuthSample.Models;
+using AuthSample.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Principal;
 
-namespace AuthSample {
-
+namespace AuthSample.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AuthController : ControllerBase {
-
+    public class AuthController : ControllerBase
+    {
         [HttpGet("secret")]
-        public ActionResult<string> GetRestrictedResource() {
+        public ActionResult<string> GetRestrictedResource()
+        {
             var validClaims = GetClaims().Select(x => x.Type);
             var userClaims = HttpContext.User.Claims.Select(x => x.Type);
-            if (validClaims.Intersect(userClaims).Count() < 1) {
+            if (validClaims.Intersect(userClaims).Count() < 1)
+            {
                 return StatusCode(403);
             }
             return "This message is top secret!";
@@ -27,15 +32,18 @@ namespace AuthSample {
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult<string> AuthenticateUser([FromBody] Credentials creds) {
-            if (UserVault.ContainsCredentials(creds.UserName, creds.Password)) {
+        public ActionResult<string> AuthenticateUser([FromBody] Credentials creds)
+        {
+            if (UserVault.ContainsCredentials(creds.UserName, creds.Password))
+            {
                 var key = SecurityService.GetSecurityKey();
                 var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var identity = new ClaimsIdentity(new GenericIdentity(creds.UserName, "username"));
                 identity.AddClaims(GetClaims());
 
                 var handler = new JwtSecurityTokenHandler();
-                var token = handler.CreateToken(new SecurityTokenDescriptor() {
+                var token = handler.CreateToken(new SecurityTokenDescriptor()
+                {
                     Issuer = SecurityService.GetIssuer(),
                     Audience = SecurityService.GetAudience(),
                     SigningCredentials = signingCredentials,
@@ -44,12 +52,15 @@ namespace AuthSample {
                     NotBefore = DateTime.Now
                 });
                 return handler.WriteToken(token);
-            } else {
+            }
+            else
+            {
                 return StatusCode(401);
             }
         }
 
-        private IEnumerable<Claim> GetClaims() {
+        private IEnumerable<Claim> GetClaims()
+        {
             return new List<Claim>() {
                 new Claim("secret_access", "true"),
                 new Claim("excellent_code", "true")
