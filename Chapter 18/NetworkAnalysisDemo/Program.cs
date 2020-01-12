@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace NetworkAnalysisDemo
 {
@@ -25,6 +26,7 @@ namespace NetworkAnalysisDemo
             Console.WriteLine("Device Details");
             foreach (NetworkInterface adapter in adapters)
             {
+                Console.WriteLine(JsonConvert.SerializeObject(adapter,Formatting.Indented));
                 Console.WriteLine("=========================================================================");
                 Console.WriteLine();
                 Console.WriteLine($"Device ID: ----------------- {adapter.Id}");
