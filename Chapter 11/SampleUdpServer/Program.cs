@@ -14,7 +14,7 @@ namespace SampleUdpServer
             using (var client = new UdpClient(45678))
             {
                 IPEndPoint remoteEndpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 34567);
-
+                Console.WriteLine("ReceiveAsync...");
                 var incomingMessage = await client.ReceiveAsync();
                 var message = Encoding.UTF8.GetString(incomingMessage.Buffer);
                 Console.WriteLine(message);
